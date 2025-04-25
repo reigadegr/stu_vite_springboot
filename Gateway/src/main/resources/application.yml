@@ -1,0 +1,64 @@
+server:
+  port: 9000
+
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: users-service-gateway
+          # uri是从注册中心中获取lb://后的的实际地址
+          uri: lb://users-service
+          predicates:
+            - Path=/users/**
+        - id: products-service-gateway
+          # uri是从注册中心中获取lb://后的的实际地址
+          uri: lb://products-service
+          predicates:
+            - Path=/products/**
+
+        - id: products-service-gateway
+          # uri是从注册中心中获取lb://后的的实际地址
+          uri: lb://products-service
+          predicates:
+            - Path=/shop_product/**
+        - id: consumer-service-gateway
+          uri: lb://consumer-service
+          predicates:
+            - Path=/home/**
+        - id: notice-service
+          uri: lb://notice-service
+          predicates:
+            - Path=/notice/**
+        - id: inform-service
+          uri: lb://notice-service
+          predicates:
+            - Path=/inform/**
+        - id: uc-service
+          uri: lb://notice-service
+          predicates:
+            - Path=/uc/**
+#          请求路径重写已经试验成功，但意义不大
+#          predicates:
+#            - Path=/users-service/**
+#          #因为请求路径重写，所以http://127.0.0.1:9092/users-service/users/login/az/a
+#          filters:
+#            - RewritePath=/users-service/(?<segment>.*), /$\{segment}
+management:
+  endpoints:
+    web:
+      exposure:
+        include=*:
