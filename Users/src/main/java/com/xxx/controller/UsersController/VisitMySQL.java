@@ -1,6 +1,5 @@
 package com.xxx.controller.UsersController;
 
-import com.xxx.pojo.Mobile;
 import com.xxx.pojo.Users;
 import com.xxx.result.Result;
 import com.xxx.services.UsersService;
