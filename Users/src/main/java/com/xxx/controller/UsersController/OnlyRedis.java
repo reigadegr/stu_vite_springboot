@@ -23,7 +23,7 @@ public class OnlyRedis {
 
     @RequestMapping(value = "/users/logout", method = RequestMethod.DELETE)
     public Result<?> usersLogout() {
-        //把tmp.getType()(用户类型)以及用户名从redis移除
+        //把tmp.getRole()(用户类型)以及用户名从redis移除
         try {
             val redis = new Redis(stringRedisTemplate);
             redis.delete("now_user_role");

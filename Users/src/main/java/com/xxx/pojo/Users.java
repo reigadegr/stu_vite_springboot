@@ -14,7 +14,7 @@ public class Users implements Serializable {
     @Serial
     private static final long serialVersionUID = 2L;
     private Integer id;
-    private String type;
+    private String role;
     private String username;
     private String password;
     // 创建时间，使用Timestamp类型以包含时区信息

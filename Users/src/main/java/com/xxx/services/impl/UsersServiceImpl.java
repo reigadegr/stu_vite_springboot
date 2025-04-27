@@ -44,18 +44,18 @@ public class UsersServiceImpl implements UsersService {
             return Result.error("用户名或密码错误");
         }
         val nowToken = new Token();
-        nowToken.setToken(Token.mergeToken(tmp.getType()));
-        //把tmp.getType()(用户类型)放到redis
+        nowToken.setToken(Token.mergeToken(tmp.getRole()));
+        //把tmp.getRole()(用户类型)放到redis
         try {
             val redis = new Redis(stringRedisTemplate);
-            redis.set("now_user_role", tmp.getType());
+            redis.set("now_user_role", tmp.getRole());
             redis.set("now_user_name", tmp.getUsername());
         } catch (Exception e) {
             val err = Result.error("redis操作出现问题");
             log.error(String.valueOf(err));
             return err;
         }
-        val rs = Result.success(nowToken, tmp.getType() + "类型用户登录成功");
+        val rs = Result.success(nowToken, tmp.getRole() + "类型用户登录成功");
         log.info(rs.toString());
         return rs;
     }
@@ -68,7 +68,7 @@ public class UsersServiceImpl implements UsersService {
         }
         val username = users.getUsername();
         val password = users.getPassword();
-        val type = users.getType();
+        val type = users.getRole();
         String[] fields = {username, password, type};
         for (val field : fields) {
             if (field == null || field.trim().isEmpty()) {
